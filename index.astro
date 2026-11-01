@@ -1,0 +1,19 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { getSeries } from '../lib/series';
+const series = getSeries();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Archivo · Exposiciones">
+  <div class="eyebrow">Fotografía personal</div>
+  <h1 class="hero">Exposiciones</h1>
+  <p class="sub">Un archivo de imágenes reunidas por temporada. Cada exposición se recorre como una sala: despacio, en silencio.</p>
+  {series.map((s) => (
+    <a class="cv" href={`${base}/serie/${s.slug}/`}>
+      {s.fotos[0] && <Picture src={s.fotos[0]} formats={['avif', 'webp']} widths={[960, 1600, 2400]} sizes="100vw" alt={s.titulo} />}
+      <i></i>
+      <div><b>{s.titulo}</b><span>{s.anio} · {s.fotos.length} fotos</span></div>
+    </a>
+  ))}
+</Base>

@@ -1,0 +1,12 @@
+---
+import { Picture, getImage } from 'astro:assets';
+const { fotos, formato, titulo } = Astro.props;
+const grandes = await Promise.all(fotos.map((f) => getImage({ src: f, width: 2400, format: 'webp' })));
+---
+<div class={`L L-${formato}`}>
+  {fotos.map((f, i) => (
+    <button class="ph" style={`--r:${(f.width / f.height).toFixed(3)}`} data-big={grandes[i].src} data-t={i === 0 ? titulo : undefined} aria-label={`Ver foto ${i + 1}`}>
+      <Picture src={f} formats={['avif', 'webp']} widths={[480, 960, 1600]} sizes="(min-width:900px) 50vw, 100vw" alt="" loading={i < 2 ? 'eager' : 'lazy'} />
+    </button>
+  ))}
+</div>
