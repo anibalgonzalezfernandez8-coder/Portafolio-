@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import Fotos from '../../components/Fotos.astro';
+import { getSeries } from '../../lib/series';
+export function getStaticPaths() {
+  return getSeries().map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+---
+<Base title={`${s.titulo} · Archivo`}>
+  <h1 class="ti">{s.titulo}</h1>
+  {s.cedula && <p class="tx">{s.cedula}</p>}
+  <Fotos fotos={s.fotos} formato={s.formato} titulo={s.titulo} />
+</Base>
